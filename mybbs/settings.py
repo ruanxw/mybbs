@@ -12,6 +12,24 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 
+# Heroku设置
+if os.getcwd() == '/app':
+    import dj_database_url
+
+    DATABASES = {
+        'default': dj_database_url.config(default='postgres://localhost')
+    }
+    # 让request.is_secure()承认X-Forwarded-Proto头
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    # 支持所有的主机头（host header）
+    ALLOWED_HOSTS = ['*']
+    # 静态资产配置
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    STATIC_ROOT = 'staticfiles'
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'static'),
+    )
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,7 +40,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'dm7j$&mwbubzw^_&2@b-enonr1k7$364mi@1$9lzetmg0)x5hu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-    DEBUG = True
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -121,7 +139,6 @@ USE_TZ = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
@@ -138,20 +155,4 @@ MEDIA_URL = "/media/"
 # media配置，用户上传的文件都默认放在这个文件夹下
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-# Heroku设置
-if os.getcwd() == '/app':
-    import dj_database_url
 
-    DATABASES = {
-        'default': dj_database_url.config(default='postgres://localhost')
-    }
-    # 让request.is_secure()承认X-Forwarded-Proto头
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    # 支持所有的主机头（host header）
-    ALLOWED_HOSTS = ['*']
-    # 静态资产配置
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    STATIC_ROOT = 'staticfiles'
-    STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'static'),
-    )
