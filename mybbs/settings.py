@@ -35,7 +35,7 @@ if os.getcwd() == '/app':
     STATICFILES_DIRS = (
         os.path.join(BASE_DIR, 'static'),
     )
-
+STATIC_ROOT = 'staticfiles'
 
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
