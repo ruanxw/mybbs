@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HelloWorld</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/blog.css">
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.css">
+
+    <script type="text/javascript" src="/static/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+{% include "include/header.html" %}
+<!-- 主页面 开始-->
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2" style="background-color: #fafafa">
+            <!-- 文章列表 开始 -->
+            <div class="article-list">
+                {% for article in article_list %}
+                    <div class="article">
+                        <h3>
+                            <a href="/blog/{{ article.user.blog.site }}/article/{{ article.pk }}.html">{{ article.title }}</a>
+                        </h3>
+                        <div class="media">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img class="media-object author-img" src="/media/{{ article.user.avatar }}" alt="...">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <p>{{ article.desc|safe }}</p>
+                            </div>
+                        </div>
+                        <div class="article-footer">
+                            <span><a href="/blog/{{ article.user.blog.site }}.html">{{ article.user.username }}</a></span>发布于
+                            <span>{{ article.create_time|date:'Y-m-d H:i:s' }}</span>
+                            {#                            <span class="glyphicon glyphicon-comment">评论({{ article.comment_count }})</span>#}
+                            {#                            <span class="glyphicon glyphicon-thumbs-up">点赞({{ article.up_count }})</span>#}
+                            <span><i class="fa fa-commenting-o fa-fw" aria-hidden="true"></i>评论({{ article.comment_count }})</span>
+                            <span><i class="fa fa-thumbs-o-up fa-fw" aria-hidden="true"></i>点赞({{ article.up_count }})</span>
+                        </div>
+                        <hr>
+                    </div>
+                {% endfor %}
+
+            </div>
+            <!-- 文章列表 结束-->
+            <div class="clearfix">
+
+                <ul class="pagination">
+                    {{ page_str }}
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

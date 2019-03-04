@@ -1,0 +1,51 @@
+
+.pg-c{
+    border-top-color: #2aabd2;
+    border-right-color: #2aabd2;
+    border-left-color: #2aabd2;
+    border-bottom-color: #2aabd2;
+}
+
+.right{
+    float: right;
+}
+
+.blognavbar{
+    height: 52px;
+    background-color: #337ab7;
+}
+
+/* 博客主页面 自定义样式*/
+.author-img {
+    width: 80px;
+    height: 80px;
+}
+
+.article-footer span {
+    margin-right: 15px;
+}
+
+.article-footer {
+    margin-top: 10px;
+}
+
+.container {
+    margin-top: 25px;
+}
+
+.article-title {
+    font-size: 28px;
+}
+
+.nav a{
+    color: wheat;
+    /*font-weight: bold;*/
+}
+
+.nav a:hover{
+    color: black;
+}
+
+
+
+

@@ -1,0 +1,164 @@
+{% extends 'backend_layout.html' %}
+
+{% block content %}
+    <ol class="breadcrumb">
+        <li><a href="#">标签管理</a></li>
+        <li class="active">标签列表</li>
+    </ol>
+    <div>
+        <div class="row" style="padding: 20px 5px;">
+            <form method="POST" class="form-horizontal" action={% url 'backend:add_tag' %}>
+                {% csrf_token %}
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label class="col-xs-1 control-label">标签名称</label>
+
+                        <div class="col-xs-3">
+                            <input type="text" class="form-control" id="nickname" name="tag_title" placeholder="请输入标签名称">
+                        </div>
+                        <div class="col-xs-3">
+                            <input type="submit" class="btn btn-primary" value="添 加">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div style="height: 35px;background-color: #f5f5f5;line-height: 35px;padding: 0 15px;">
+            <i class="fa fa-table" aria-hidden="true"></i>
+            标签列表
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th style="width: 30%">标签</th>
+                <th style="width: 30%">文章个数</th>
+                <th style="width: 40%">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tag in tag_list %}
+                <tr>
+                    <td>{{ tag.title }}</td>
+                    <td style="display: none;">
+                        <input nid={{ tag.nid }} value={{ tag.title }}>
+                        <button class="confirm-edit" type="button"  aria-hidden="true" style="color: green">
+                            &radic;
+                        </button>
+                         <button class="cancel-edit" type="button"  aria-hidden="true"  style="color: red">
+                            &times;
+                        </button>
+                        <span class="error-edit" style="color: red"></span>
+                    </td>
+                    <td>{{ tag.c }}</td>
+                    <td>
+                        <a class="btn btn-danger btn-xs"
+                            data-href="/backend/del-tag.html?title={{ tag.title }}" data-toggle="modal"
+                            data-target="#confirm-delete">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                            删除
+                        </a>
+                        |
+                        <a class="btn btn-primary btn-xs  edit-button">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                            编辑
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="clearfix">
+            <ul class="pagination right" style="margin-top: 0">
+                {{ page_str }}
+            </ul>
+        </div>
+    </div>
+
+    <!-- 模态框（Modal） -->
+        <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                            &times;
+                        </button>
+                        <h3 class="modal-title" id="myModalLabel">
+                            <i class="fa fa-warning" aria-hidden="true"> 提示</i>
+                        </h3>
+                    </div>
+                    <h4 class="modal-body col-md-offset-2">
+                        你是否确认删除该标签？删除后无法恢复！！！
+                    </h4>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <a type="button" data-dismiss="modal" class="btn btn-primary btn-ok">
+                            确认
+                        </a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal -->
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block js %}
+    <script>
+
+        $('#confirm-delete').on('show.bs.modal', function (e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'))
+        });
+        $('.btn-ok').click(function () {
+            var url = $(this).attr('href');
+            console.log(url)
+            $.ajax({
+                url: url,
+                type: "get",
+                success: function (data) {
+                    if (data.status) {
+                        alert(data.msg);
+                    } else {
+                        location.reload()
+                    }
+                }
+            });
+        });
+        $('.edit-button').click(function () {
+            $(this).parent().prev().prev().css('display','block').prev().css('display','none');
+        })
+        $('.cancel-edit').click(function () {
+            $(this).parent().css('display','none').prev().css('display','block');
+            $(this).next().text("")
+        })
+        $('.confirm-edit').click(function () {
+            var title = $(this).prev().val();
+            var nid = $(this).prev().attr('nid')
+            $(this).addClass("commit_flag")
+            $.ajax({
+                url: "{% url 'backend:tag' %}",
+                type: "post",
+                data: {"title": title,
+                        "nid": nid,
+                        csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val(),
+                },
+                success: function (data) {
+                    if (data.status) {
+                        $(".commit_flag").next().next().text(data.msg)
+                    } else {
+                        $(".commit_flag").parent().css('display','none').prev().css('display','block');
+                        $(".commit_flag").parent().css('display','none').prev().text(title);
+                        $(".commit_flag").next().next().text("")
+                        $(".commit_flag").removeClass('commit_flag');
+                    }
+                }
+            });
+        })
+
+    </script>
+{% endblock %}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/backend.css"/>
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.css"/>
+    {% block css %} {% endblock css %}
+</head>
+<body>
+<div class="pg-header">
+    <div class="logo left">
+        <a href={% url "backend:index" %}>后台管理</a>
+    </div>
+    <div class="left left-menu">
+        <a class="menu-item" href="/">博客首页</a>
+    </div>
+    <div class="right-menu right clearfix">
+        <div class="user-info right">
+            <a href="#" >
+                <img class="img-circle avatar" src="/media/{{ request.user.avatar }}">
+            </a>
+            <div class="more-info">
+                <a href="#" class="more-item">个人信息</a>
+                <a href="{% url "users:logout" %}" class="more-item">注销</a>
+            </div>
+        </div>
+        <div class="user-menu right">
+            消息
+            <i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>
+            <span class="badge">2</span>
+        </div>
+        <div class="user-menu right">
+            任务
+            <i class="glyphicon glyphicon-bell" aria-hidden="true"></i>
+            <span class="badge">2</span>
+        </div>
+    </div>
+</div>
+<div class="pg-body">
+    <div class="menu">
+        <a class="menu-item" href="/backend/article-0-0.html">
+            <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>
+            <span>文章管理</span>
+        </a>
+        <a class="menu-item" href={% url 'backend:category' %}>
+            <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>
+            <span>分类管理</span>
+        </a>
+        <a class="menu-item" href={% url 'backend:tag' %}>
+            <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>
+            <span>标签管理</span>
+        </a>
+        <a class="menu-item" href={% url 'backend:base_info' %}>
+            <i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>
+            <span>个人中心</span>
+        </a>
+    </div>
+    <div class="content">
+        {% block content %} {% endblock %}
+    </div>
+</div>
+    <script type="text/javascript" src="/static/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.min.js"></script>
+    {% block js %}{% endblock %}
+</body>
+</html>

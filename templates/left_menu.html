@@ -1,0 +1,18 @@
+<h2>文章分类</h2>
+<ul>
+    {% for category in category_list %}
+        <li><a href="/blog/{{ blog_site }}/category/{{ category.title }}.html">{{ category.title }}({{ category.c }})</a></li>
+    {% endfor %}
+</ul>
+<h2>文章标签</h2>
+<ul>
+    {% for tag in tag_list %}
+        <li><a href="/blog/{{ blog_site }}/tag/{{ tag.title }}.html">{{ tag.title }}({{ tag.c }})</a></li>
+    {% endfor %}
+</ul>
+<h2>文章归档</h2>
+<ul>
+    {% for archive in archive_list %}
+        <li><a href="/blog/{{ blog_site }}/archive/{{ archive.ctime }}.html">{{ archive.ctime }}({{ archive.num }})</a></li>
+    {% endfor %}
+</ul>

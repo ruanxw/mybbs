@@ -1,0 +1,46 @@
+1.form表单中密码的render_value=true的作用？
+------->form表单提交时，添加这个参数之后，当密码输入错误，重新返回的时候会显示之前填的密码
+
+2.头像文件时怎么上传上去的？
+一：指定了上传文件夹
+avatar = models.FileField(upload_to="avatars/", default="avatars/default.png", verbose_name="头像")
+二：ajax上传文件注意事项
+ajax上传文件，
+1, 必须要添加processData:fase, contentType:false
+2, 提交的必须是form表单对象
+var formdata = new FormData();
+        //1.获取用户填写的用户名和密码
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var valid_code = $("#valid_code").val();
+        formdata.append("username", username);
+        formdata.append("password", password);
+        formdata.append("valid_code", valid_code);
+        formdata.append("csrfmiddlewaretoken", $("[name='csrfmiddlewaretoken']").val());
+$.ajax({
+            {#url: "/users/register/",#}
+            url: "{% url 'users:register' %}",
+            type: "post",
+            processData: false, //告诉jQuery不要处理我的数据
+            contentType: false, //告诉jQuery不要设置content类型
+            data: formData,
+            success: function (data) {
+                {#console.log(data);#}
+                if (data.status) {
+                    //有错误就展示错误
+                    //console.log(data.msg);
+                    //将错误信息写到页面上
+                    $.each(data.msg, function (k, v) {
+                        //console.log("id_"+k, v[0]);
+                        //concole.log($("#id_"+k));
+                        $("#id_" + k).next("span").text(v[0]).parent().parent().addClass("has-error");
+                    })
+                } else {
+                    //没有错误跳转到指定页面
+                    location.href = data.msg;
+                }
+            }
+        });
+
+3.禁止使用浏览器进行参数检查？
+------>form 中添加novalidate禁止使用浏览器进行输入合法性检查

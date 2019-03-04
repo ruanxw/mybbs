@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ blog.title }}</title>
+    <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/blog.css">
+{#    <link rel="stylesheet" href="/static/theme/{{ blog.theme }}">#}
+    <link rel="stylesheet" href="/static/css/userBlog_base.css">
+    <script src="/static/js/jquery-3.3.1.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<header>
+    <h1><a href="/blog/{{ blog.site }}.html">{{ blog.title }}</a></h1>
+</header>
+
+<!--nav begin-->
+<div class="navswf">
+<object id="customMenu" data="/static/img/nav.swf" width="528" height="70" type="application/x-shockwave-flash"><param name="allowScriptAccess" value="always"><param name="allownetworking" value="all"><param name="allowFullScreen" value="true"><param name="wmode" value="transparent"><param name="menu" value="false"><param name="scale" value="noScale"><param name="salign" value="1">
+</object>
+<div id="nav">
+    <ul>
+        <li><a href="/" >网站首页</a></li>
+        <li><a href="/backend/index.html" >管理</a></li>
+        <li><a href="#" target="_blank" title="留言版">留言版</a></li>
+    </ul>
+</div>
+</div>
+<div class="blank"></div>
+<!--nav end-->
+
+<div class="content">
+    <div class="blog">
+        {% block page-main %}
+
+        {% endblock %}
+    </div>
+    <aside>
+        {% load my_tags %}
+
+        {% get_left_menu user.username %}
+    </aside>
+</div>
+
+
+</body>
+</html>
