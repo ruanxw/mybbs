@@ -134,7 +134,6 @@ def register(request):
             form_obj.cleaned_data.pop("re_password")
             avatar_img = request.FILES.get("avatar")
             if(avatar_img):
-                models.UserInfo.objects.create_user(**form_obj.cleaned_data, avatar=avatar_img)
                 # 头像文件保存到media/avatars文件夹
                 file_name = str(uuid.uuid4())
                 file_path = os.path.join('media/avatars', file_name)
@@ -142,6 +141,7 @@ def register(request):
                 for chunk in avatar_img.chunks():
                     f.write(chunk)
                 f.close()
+                models.UserInfo.objects.create_user(**form_obj.cleaned_data, avatar=file_name)
             else:
                 models.UserInfo.objects.create_user(**form_obj.cleaned_data)
             username = form_obj.cleaned_data.get("username")
