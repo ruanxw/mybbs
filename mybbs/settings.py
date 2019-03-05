@@ -131,10 +131,11 @@ USE_TZ = False
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, "static"),
-# ]
-STATIC_ROOT = 'static'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+#"上传heroku要打开STATIC_ROOT，关闭STATICFILES_DIRS，本地使用则相反"
+# STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # 告诉django项目使用那张表做认证
 AUTH_USER_MODEL = 'blog.UserInfo'
