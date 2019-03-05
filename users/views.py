@@ -133,18 +133,22 @@ def register(request):
             # 校验通过，去数据库创建一个新用户
             form_obj.cleaned_data.pop("re_password")
             avatar_img = request.FILES.get("avatar")
-            models.UserInfo.objects.create_user(**form_obj.cleaned_data, avatar=avatar_img)
+            if(avatar_img):
+                models.UserInfo.objects.create_user(**form_obj.cleaned_data, avatar=avatar_img)
+                # 头像文件保存到media/avatars文件夹
+                file_name = str(uuid.uuid4())
+                file_path = os.path.join('media/avatars', file_name)
+                f = open(file_path, 'wb')
+                for chunk in avatar_img.chunks():
+                    f.write(chunk)
+                f.close()
+            else:
+                models.UserInfo.objects.create_user(**form_obj.cleaned_data)
             username = form_obj.cleaned_data.get("username")
             password = form_obj.cleaned_data.get("password")
             # authenticated_user = auth.authenticate(username=username, password=password)
             ret["msg"] = reverse("blog:index")
-            #头像文件保存到media/avatars文件夹
-            file_name = str(uuid.uuid4())
-            file_path = os.path.join('media/avatars', file_name)
-            f = open(file_path, 'wb')
-            for chunk in avatar_img.chunks():
-                f.write(chunk)
-            f.close()
+
             return JsonResponse(ret)
         else:
             print(form_obj.errors)
