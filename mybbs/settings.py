@@ -38,7 +38,7 @@ DATABASES = {
 SECRET_KEY = 'dm7j$&mwbubzw^_&2@b-enonr1k7$364mi@1$9lzetmg0)x5hu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -134,7 +134,6 @@ STATIC_URL = '/static/'
 # STATICFILES_DIRS = [
 #     os.path.join(BASE_DIR, "static"),
 # ]
-"上传heroku要打开STATIC_ROOT，关闭STATICFILES_DIRS，本地使用则相反"
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # 告诉django项目使用那张表做认证
@@ -165,6 +164,6 @@ if os.getcwd() == '/app':
     #BASE_DIR = os.path.dirname(os.path.abspath(__file__))
     # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     #STATIC_ROOT = 'static'
-    STATICFILES_DIRS = (
-        os.path.join(BASE_DIR, 'static'),
-    )
+    # STATICFILES_DIRS = (
+    #     os.path.join(BASE_DIR, 'static'),
+    # )
