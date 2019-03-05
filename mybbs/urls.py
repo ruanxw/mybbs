@@ -21,6 +21,7 @@ from django.contrib.staticfiles.views import serve
 # from django.conf import settings
 from mybbs import settings
 from django.conf.urls.static import static
+import os
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,4 +33,5 @@ urlpatterns = [
     # re_path(r'^media/(?P<path>.*)$', serve, {'path': MEDIA_ROOT}),
     path('', include('blog.urls', namespace='blog')),
 ]
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if os.getcwd() != '/app':
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

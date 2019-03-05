@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.contrib import auth
 
 import json
+import os
+import uuid
 
 # Create your views here.
 from . import forms
@@ -136,6 +138,13 @@ def register(request):
             password = form_obj.cleaned_data.get("password")
             # authenticated_user = auth.authenticate(username=username, password=password)
             ret["msg"] = reverse("blog:index")
+            #头像文件保存到media/avatars文件夹
+            file_name = str(uuid.uuid4())
+            file_path = os.path.join('media/avatars', file_name)
+            f = open(file_path, 'wb')
+            for chunk in avatar_img.chunks():
+                f.write(chunk)
+            f.close()
             return JsonResponse(ret)
         else:
             print(form_obj.errors)
