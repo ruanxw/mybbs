@@ -1,0 +1,1 @@
+This file ensures that add_article_img direction will be added to the project.
