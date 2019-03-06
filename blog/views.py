@@ -27,16 +27,16 @@ def home(request, blog_site, *args, **kwargs):
     if not args:
         article_list = models.Article.objects.filter(user=user).exclude(category__title='default').order_by('-create_time')
     elif args[0] == "category":
-        article_list = models.Article.objects.filter(user=user).filter(category__title = args[1]).order_by('-create_time')
+        article_list = models.Article.objects.filter(user=user).filter(category__title = args[1]).exclude(category__title='default').order_by('-create_time')
     elif  args[0] == "tag":
-        article_list = models.Article.objects.filter(user=user).filter(tags__title = args[1]).order_by('-create_time')
+        article_list = models.Article.objects.filter(user=user).filter(tags__title = args[1]).exclude(category__title='default').order_by('-create_time')
     else:
         # 按照日期归档
         try:
             year, month = args[1].split("-")
             article_list = models.Article.objects.filter(user=user).filter(
                 create_time__year=year, create_time__month=month
-            ).order_by('-create_time')
+            ).exclude(category__title='default').order_by('-create_time')
         except Exception as e:
             return HttpResponse("404")
 

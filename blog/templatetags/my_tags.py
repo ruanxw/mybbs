@@ -6,7 +6,7 @@ register = template.Library()
 
 
 def month_list(user):
-    articles = models.Article.objects.filter(user=user).all()
+    articles = models.Article.objects.filter(user=user).all().exclude(category__title='default')
     year_month = set()   #设置集合，无重复元素
     for a in articles:
         year_month.add((a.create_time.year,a.create_time.month))  #把每篇文章的年、月以元组形式添加到集合中
